@@ -30,8 +30,7 @@ services:
       - 3306:3306
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      #MYSQL_ROOT_PASSWORD: root      
-      MYSQL_DATABASE: classicmodelsGFA
+      MYSQL_DATABASE: classicmodels
       MYSQL_USER: molmos
       MYSQL_PASSWORD: P@ssw0rd1
     volumes:
