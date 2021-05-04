@@ -25570,25 +25570,21 @@ CREATE TABLE `gfaSales_journal` (
 
 /*Trigger para despues de insertar*/
 
-DELIMITER $$
 CREATE TRIGGER `gfaSales_after_insert` AFTER INSERT ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
 	SET
 		sale_ID = NEW.sale_ID,
 		action_type = 'create',
-		action_time = now()$$
-DELIMITER ;
+		action_time = NOW();
 
 /*Trigger para despues de eliminar*/
-DELIMITER $$
 CREATE TRIGGER `gfaSales_after_delete` AFTER DELETE ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
 	SET
 		sale_ID = OLD.sale_ID,
 		action_type = 'delete',
-		action_time = now()$$
-DELIMITER ;
+		action_time = NOW();
 
 /*Trigger para despues de actualizar*/
-DELIMITER $$
+DELIMITER ;;
 CREATE TRIGGER `gfasales_after_update` AFTER UPDATE ON `gfasales` FOR EACH ROW IF NEW.sale_ID = OLD.sale_ID THEN
 		INSERT INTO classicmodels.gfaSales_journal
 	SET
@@ -25606,7 +25602,7 @@ CREATE TRIGGER `gfasales_after_update` AFTER UPDATE ON `gfasales` FOR EACH ROW I
 		SET action_type = 'create',
 			sale_ID = NEW.sale_ID,
 			action_time = NOW();
-	END IF$$
+	END IF;;
 DELIMITER ;
 
 
