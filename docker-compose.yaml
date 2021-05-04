@@ -71,6 +71,11 @@ services:
         hard: -1
     volumes:
       - ./volumes/elk-stack/elasticsearch:/usr/share/elasticsearch/data
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "10k"
+            max-file: "10"  
 
   ####################
   # Logstach Container #
