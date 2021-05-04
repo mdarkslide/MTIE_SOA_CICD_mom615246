@@ -25558,6 +25558,57 @@ insert  into `gfaSales`(`sale_ID`,`officeCode`,`salesKey`,`destination`,`saleDat
 ('55000', 'RSVPP', 'RSINT', 'MORE', '2020-02-02', 'P', '88', '17:50', 'ON', '2020-02-02', 'M', '188', '09:19', '0') ,
 ('55001', 'RSVPP', 'RSINT', 'MORE', '2020-02-02', 'P', '88', '19:20', 'SALA', '2020-02-03', 'C', '189', '13:07', '0') ;
 
+/*Table structure for table `gfasalesjournal` */
+
+CREATE TABLE `gfaSales_journal` (
+	`journal_id` int NOT NULL AUTO_INCREMENT,
+	`sale_ID` int(11) DEFAULT NULL,
+	`action_type` enum('create','update','delete') DEFAULT NULL,
+	`action_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`journal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Trigger para despues de insertar*/
+
+DELIMITER $$
+CREATE TRIGGER `gfaSales_after_insert` AFTER INSERT ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
+	SET
+		sale_ID = NEW.sale_ID,
+		action_type = 'create',
+		action_time = now()$$
+DELIMITER ;
+
+/*Trigger para despues de eliminar*/
+DELIMITER $$
+CREATE TRIGGER `gfaSales_after_delete` AFTER DELETE ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
+	SET
+		sale_ID = OLD.sale_ID,
+		action_type = 'delete',
+		action_time = now()$$
+DELIMITER ;
+
+/*Trigger para despues de actualizar*/
+DELIMITER $$
+CREATE TRIGGER `gfasales_after_update` AFTER UPDATE ON `gfasales` FOR EACH ROW IF NEW.sale_ID = OLD.sale_ID THEN
+		INSERT INTO classicmodels.gfaSales_journal
+	SET
+		sale_ID = OLD.sale_ID,
+		action_type = 'update',
+		action_time = NOW();
+	ELSE
+		-- Set old one as deleted
+		INSERT INTO classicmodels.gfaSales_journal
+		SET action_type = 'delete',
+			sale_ID = OLD.sale_ID,
+			action_time = NOW();
+		-- AND NEW one created
+		INSERT INTO classicmodels.gfaSales_journal
+		SET action_type = 'create',
+			sale_ID = NEW.sale_ID,
+			action_time = NOW();
+	END IF$$
+DELIMITER ;
+
 
 /*Table structure for table `orderdetails` */
 
