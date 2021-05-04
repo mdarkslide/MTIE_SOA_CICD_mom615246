@@ -25584,27 +25584,11 @@ CREATE TRIGGER `gfaSales_after_delete` AFTER DELETE ON `gfaSales` FOR EACH ROW I
 		action_time = NOW();
 
 /*Trigger para despues de actualizar*/
-DELIMITER ;;
-CREATE TRIGGER `gfasales_after_update` AFTER UPDATE ON `gfasales` FOR EACH ROW IF NEW.sale_ID = OLD.sale_ID THEN
-		INSERT INTO classicmodels.gfaSales_journal
+CREATE TRIGGER `gfaSales_after_update` AFTER UPDATE ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
 	SET
 		sale_ID = OLD.sale_ID,
 		action_type = 'update',
 		action_time = NOW();
-	ELSE
-		-- Set old one as deleted
-		INSERT INTO classicmodels.gfaSales_journal
-		SET action_type = 'delete',
-			sale_ID = OLD.sale_ID,
-			action_time = NOW();
-		-- AND NEW one created
-		INSERT INTO classicmodels.gfaSales_journal
-		SET action_type = 'create',
-			sale_ID = NEW.sale_ID,
-			action_time = NOW();
-	END IF;;
-DELIMITER ;
-
 
 /*Table structure for table `orderdetails` */
 
