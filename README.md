@@ -1,2 +1,129 @@
 # MTIE_SOA_CICD_mom615246
-Proyecto final clase de Modelos de Arquitectura 
+## Maestría en Tecnologías de Información Empresarial
+## 143 - 02MTI513 - Modelos de Arquitecturas Orientadas a los Servicios
+### 615246 - Miguel Olmos Mares 
+### Proyecto Final
+
+Proyecto final para la creación de una maáquina virtual con RancherOS en la cual se crearan los contenedores necesarios para crear un dashboard con Logstash, elasticsearch y Kibana a partir de la información de una base de datos en MySQL.
+
+## Creación de una maquina virtual con docker-machine
+### Instalación de Docker Machine en Windows
+1. Verificar que ese deshabilitado el soporte para **Hyper-V** desde *Activar o desactivar las características de Windows* en Panel de Control. 
+   - Para algunos casos verificar que esten deshabilitadas las opciones *Virtual Machine Platform* y *Windows Hypervisor Platform*. 
+2. Descargar e instalar [VirtualBox](https://www.virtualbox.org/wiki/Downloads). 
+3. Ejecutar **PowerShell** con privilegios de adminstrador: 
+``` 
+bcdedit /set hypervisorlaunchtype off 
+``` 
+4. Instalar [Docker Desktop](https://www.docker.com/products/docker-desktop) para todos los usuarios y reiniciar.
+5. Ejecutar **PowerShell** con privilegios de adminstrador e instalar **Chocolatey**: 
+``` 
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
+``` 
+6. Confirmar la versión instalada de Chocolatey. 
+``` 
+choco --version
+``` 
+7. Se utiliza **PowerShell** para instalar **docker-machine** a través de **Chocolatey**: 
+``` 
+choco install docker-machine 
+``` 
+8. Confirmar la versión instalada de **docker-machine**: 
+``` 
+docker-machine --version 
+``` 
+### Crear una maquina virtual con RancherOS utilizando docker-machine
+1. Crear una maquina con docker-machine utilizando el driver de virtualbox llamada **elk-stack** con 2 CPUs, 20GB de almacenamiento y 5GB de RAM, el resto de los parametros se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
+``` 
+docker-machine create --driver virtualbox --virtualbox-cpu-count 2 --virtualbox-disk-size 20000 --virtualbox-memory 5120 --virtualbox-boot2docker-url https://releases.rancher.com/os/latest/rancheros.iso elk-stack
+``` 
+_--virtualbox-cpu-count: Número de CPU que se utilizarán para crear la máquina virtual. Deafult 1 CPU._ 
+ 
+_--virtualbox-disk-size: Tamaño del disco para el host en MB._ 
+ 
+_--virtualbox-memory: Tamaño de la memoria RAM del host en MB._ 
+ 
+_--virtualbox-boot2docker-url: URL de la imagen de boot2docker (Última versión disponible)._ 
+ 
+### Lista de comandos para docker-machine
+Comando | Descripción
+------------ | -------------
+docker-machine ls | Ver la lista de VMs creadas
+docker-machine start *nombre_VM* | Iniciar una VM
+docker-machine stop *nombre_VM* | Detener una VM
+docker-machine rm -y *nombre_VM* | Eliminar una VM sin confirmación
+docker-machine ssh *nombre_VM* | Conectarse a una VM a traves de SSH
+
+### Configuración de la máquina virtual para la creación de los contenedores 
+1. Conectarse a la máquina virtual creada en el paso anterior. 
+``` 
+docker-machine ssh *nombre_VM* 
+``` 
+2. Habilitar la consola de Ubuntu en RancherOS:
+``` 
+sudo ros console switch ubuntu 
+``` 
+3. Instalar docker-compose en RancherOS
+``` 
+sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+``` 
+4. Cambiar los permisos a la carpeta generada en la instalación:
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
+5. Crear un alias para ejecutar Git sin instalarlo. 
+``` 
+alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine" 
+``` 
+6. Configurar variable **vm.max_map_count** dentro del archivo de configuración sysctl. 
+``` 
+sudo vi /etc/sysctl.conf 
+``` 
+En el editor **vi** presionar ESC + i (insertar) y agregar al final del archivo la siguiente linea sin comentar: 
+**vm.max_map_count=2621444**. 
+Para guardar presionar ESC y escribir ":wq" (*Write y quit*)
+7. Verificar el valor de la variable, ejecutar:
+``` 
+sudo sysctl -p 
+``` 
+8. Verificar la IP asignada a la máquina virtual
+``` 
+ifconfig 
+``` 
+9. En el archivo host (%WINDIR%\\System32\drivers\etc\host) y agregar la IP para la URL de Kibana
+``` 
+192.168.99.103	kibana.midominiomtie.net
+``` 
+### Descarga del proyecto desde el repositorio de git
+1. Clonar el repositorio de este proyecto en la máquina virtual. 
+``` 
+git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git
+``` 
+2. Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios. 
+``` 
+sudo mkdir -p volumes/elk-stack/elasticsearch && cd volumes/elk-stack/ && sudo chmod 777 elasticsearch/ 
+``` 
+3. Regresar a la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** donde se encuentra el  el archivo YAML **\*docker-compose\*** que contiene todas las instrucciones para la creación de los contenedores. 
+``` 
+sudo docker-compose up --build -d 
+``` 
+### Lista de comandos para contenedores
+Comando | Descripción
+------------ | -------------
+docker ps -a | Ver la lista de todos los contenedores creados
+docker exec -it *nombre_contenedor* bash | Entrar a un contenedor
+docker logs --follow --tail 10 *nombre_contenedor* | Ver el log del contenedor (10 líneas)
+docker rm -fv *nombre_contenedor* | Eliminar un contenedor
+docker rm -f $(docker ps -qa) | Eliminar todos los contenedores
+docker images | Ver la lista de las imagenes en el repositorio de docker
+docker rmi -f $(docker images -a -q) | Eliminar todas las imagenes del repositorio
+
+1. Eliminar la carpeta del proyecto para descargar una nueva versión desde el repositorio.
+``` 
+sudo rm -r *nombre carpeta*
+``` 
+2. El tablero generado en Kibana se puede consultar en:
+``` 
+http://kibana.midominiomtie.net/
+``` 
+## Fin
