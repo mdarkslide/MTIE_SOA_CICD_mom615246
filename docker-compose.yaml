@@ -29,13 +29,14 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      #MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: toor
       MYSQL_DATABASE: classicmodels
       MYSQL_USER: molmos
       MYSQL_PASSWORD: P@ssw0rd1
     volumes:
       # Dump files for initiating tables
-      - ./data/:/docker-entrypoint-initdb.d/
+      - ~/data/:/docker-entrypoint-initdb.d/
     logging:
         driver: "json-file"
         options:
@@ -70,7 +71,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./volumes/elk-stack/elasticsearch:/usr/share/elasticsearch/data
+      - ~/volumes/elk-stack/elasticsearch:/usr/share/elasticsearch/data
     logging:
         driver: "json-file"
         options:
@@ -90,10 +91,10 @@ services:
       - mysql
       - elasticsearch
     volumes:
-      - ./volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
-      - ./volumes/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-      - ./volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
+      - ~/volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
+      - ~/volumes/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ~/volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ~/volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
     logging:
       driver: "json-file"
       options:
@@ -108,9 +109,8 @@ services:
     container_name: MRSI-Kibana
     restart: always
     environment:
-      #- ELASTICSEARCH_URL=http://elasticsearch:9200
-      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
-      - "SERVER_NAME=127.0.0.1"
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      #- ELASTICSEARCH_HOSTS=http://192.168.99.103:9200
       - VIRTUAL_HOST=kibana.midominiomtie.net
     #ports:
     #  - 5601:5601
