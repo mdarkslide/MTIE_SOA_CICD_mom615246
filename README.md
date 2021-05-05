@@ -1,20 +1,22 @@
 # MTIE_SOA_CICD_mom615246
 ## Maestría en Tecnologías de Información Empresarial
 ## 143 - 02MTI513 - Modelos de Arquitecturas Orientadas a los Servicios
-### 615246 - Miguel Olmos Mares 
+
+### Presenta: 615246 - Miguel Olmos Mares 
 ### Proyecto Final
 
-Proyecto final para la creación de una maáquina virtual con RancherOS en la cual se crearan los contenedores necesarios para crear un dashboard con Logstash, elasticsearch y Kibana a partir de la información de una base de datos en MySQL.
+> Proyecto final para la creación de una máquina virtual con RancherOS en la cual se crearan los contenedores necesarios para crear un dashboard con Logstash, Elasticsearch y Kibana a partir de la información de una base de datos en MySQL.
 
 ## Creación de una maquina virtual con docker-machine
 ### Instalación de Docker Machine en Windows
+
 1. Verificar que ese deshabilitado el soporte para **Hyper-V** desde *Activar o desactivar las características de Windows* en Panel de Control. 
-   - Para algunos casos verificar que esten deshabilitadas las opciones *Virtual Machine Platform* y *Windows Hypervisor Platform*. 
+   - Para algunos casos verificar que esten deshabilitadas las opciones *Virtual Machine Platform* y *Windows Hypervisor Platform*.
 2. Descargar e instalar [VirtualBox](https://www.virtualbox.org/wiki/Downloads). 
 3. Ejecutar **PowerShell** con privilegios de adminstrador: 
 ``` 
 bcdedit /set hypervisorlaunchtype off 
-``` 
+```
 4. Instalar [Docker Desktop](https://www.docker.com/products/docker-desktop) para todos los usuarios y reiniciar.
 5. Ejecutar **PowerShell** con privilegios de adminstrador e instalar **Chocolatey**: 
 ``` 
@@ -28,12 +30,14 @@ choco --version
 ``` 
 choco install docker-machine 
 ``` 
+
 8. Confirmar la versión instalada de **docker-machine**: 
 ``` 
 docker-machine --version 
 ``` 
 ### Crear una maquina virtual con RancherOS utilizando docker-machine
-1. Crear una maquina con docker-machine utilizando el driver de virtualbox con 2 CPUs, 20GB de almacenamiento y 5GB de RAM denominada **elk-stack**, el resto de los parametros del driver se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
+
+1.Crear una maquina con docker-machine utilizando el driver de virtualbox con 2 CPUs, 20GB de almacenamiento y 5GB de RAM denominada **elk-stack**, el resto de los parametros del driver se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
  
 _--virtualbox-cpu-count: Número de CPU que se utilizarán para crear la máquina virtual. Default 1 CPU._ 
  
@@ -83,8 +87,9 @@ sudo vi /etc/sysctl.conf
 ``` 
 7. En el editor **vi** presionar ESC + i (insert) y agregar al final del archivo la siguiente linea sin comentar: 
 **vm.max_map_count=2621444**.
-Para guardar presionar ESC y escribir ":wq" (*Write y quit*).
-8. Verificar el valor de la variable, ejecutar:
+> Para guardar los cambios presionar [ESC] y después escribir `:wq` (*write y *quit).
+
+8. Verificar el valor de la variable sysctl, ejecutar:
 ``` 
 sudo sysctl -p 
 ``` 
@@ -97,19 +102,22 @@ ifconfig
 XX.XX.XX.XX	kibana.midominiomtie.net
 ``` 
 ### Descarga del proyecto desde el repositorio de git
-1. Clonar el repositorio de este proyecto en la máquina virtual. 
+Se ejecutara un script que realizará las siguientes acciones:
+1. Clonar el repositorio de este proyecto en la máquina virtual
+2. Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios.
+3. Moverá los archivos a la raiz desde la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** en el que se encuentra el archivo YAML **\*docker-compose\*** que contiene todas las instrucciones para la creación de los contenedores. 
 ``` 
-git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git
+git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git && \
+cd MTIE_SOA_CICD_mom615246 && \
+sudo cp -R volumes/ ~/ && \
+sudo mkdir -p ~/volumes/elk-stack/elasticsearch && \
+cd ~/volumes/elk-stack/ && \
+sudo chmod 777 elasticsearch/ && \
+cd ~/MTIE_SOA_CICD_mom615246 && \
+sudo cp -R data/ ~/ && \
+sudo docker-compose up --build -d
 ``` 
-2. Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios. 
-``` 
-sudo mkdir -p volumes/elk-stack/elasticsearch && cd volumes/elk-stack/ && sudo chmod 777 elasticsearch/ 
-``` 
-3. Regresar a la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** donde se encuentra el  el archivo YAML **\*docker-compose\*** que contiene todas las instrucciones para la creación de los contenedores. 
-``` 
-sudo docker-compose up --build -d 
-``` 
-4. En caso de requerir eliminar la carpeta del proyecto para descargar una nueva versión desde el repositorio ejecutar:
+> En caso de requerir eliminar la carpeta del proyecto para descargar una nueva versión desde el repositorio ejecutar:
 ``` 
 sudo rm -r *nombre carpeta*
 ``` 
