@@ -2,6 +2,8 @@
 ## Maestría en Tecnologías de Información Empresarial
 ## 143 - 02MTI513 - Modelos de Arquitecturas Orientadas a los Servicios
 
+(/DeLa Salle_FTI_Color.png "Logo de la Facultad de Tecnologías de la Información.")
+
 ### Presenta: 615246 - Miguel Olmos Mares 
 ### Proyecto Final
 
@@ -37,7 +39,7 @@ docker-machine --version
 ``` 
 ### Crear una maquina virtual con RancherOS utilizando docker-machine
 
-1.Crear una maquina con docker-machine utilizando el driver de virtualbox con 2 CPUs, 20GB de almacenamiento y 5GB de RAM denominada **elk-stack**, el resto de los parametros del driver se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
+Crear una maquina con docker-machine utilizando el driver de virtualbox con 2 CPUs, 20GB de almacenamiento y 5GB de RAM denominada **elk-stack**, el resto de los parametros del driver se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
  
 _--virtualbox-cpu-count: Número de CPU que se utilizarán para crear la máquina virtual. Default 1 CPU._ 
  
@@ -46,6 +48,7 @@ _--virtualbox-disk-size: Tamaño del disco asignado a la máquina virtual en MB.
 _--virtualbox-memory: Tamaño de la memoria RAM asignada a la máquina virtual en MB._ 
  
 _--virtualbox-boot2docker-url: URL de la imagen de boot2docker (Última versión disponible)._ 
+>
  
  ``` 
 docker-machine create --driver virtualbox --virtualbox-cpu-count 2 --virtualbox-disk-size 20000 --virtualbox-memory 5120 --virtualbox-boot2docker-url https://releases.rancher.com/os/latest/rancheros.iso elk-stack
@@ -132,7 +135,7 @@ docker rm -f $(docker ps -qa) | Eliminar todos los contenedores
 docker images | Ver la lista de las imagenes en el repositorio de docker
 docker rmi -f $(docker images -a -q) | Eliminar todas las imagenes del repositorio
 ### Consulta del dashboard
-1. El tablero generado en Kibana se puede consultar en un navegador:
+El tablero generado en Kibana se puede consultar en un navegador:
 ``` 
 http://kibana.midominiomtie.net/
 ``` 
