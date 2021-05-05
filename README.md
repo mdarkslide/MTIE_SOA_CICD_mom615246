@@ -33,7 +33,7 @@ choco install docker-machine
 docker-machine --version 
 ``` 
 ### Crear una maquina virtual con RancherOS utilizando docker-machine
-1. Crear una maquina con docker-machine utilizando el driver de virtualbox llamada **elk-stack** con 2 CPUs, 20GB de almacenamiento y 5GB de RAM, el resto de los parametros se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
+1. Crear una maquina con docker-machine utilizando el driver de virtualbox con 2 CPUs, 20GB de almacenamiento y 5GB de RAM denominada **elk-stack**, el resto de los parametros del driver se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
 ``` 
 docker-machine create --driver virtualbox --virtualbox-cpu-count 2 --virtualbox-disk-size 20000 --virtualbox-memory 5120 --virtualbox-boot2docker-url https://releases.rancher.com/os/latest/rancheros.iso elk-stack
 ``` 
@@ -67,7 +67,7 @@ sudo ros console switch ubuntu
 ``` 
 sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 ``` 
-4. Cambiar los permisos a la carpeta generada en la instalación:
+4. Cambiar los permisos a la carpeta generada en la instalación de git:
 ```
 sudo chmod +x /usr/local/bin/docker-compose
 ```
@@ -75,13 +75,13 @@ sudo chmod +x /usr/local/bin/docker-compose
 ``` 
 alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine" 
 ``` 
-6. Configurar variable **vm.max_map_count** dentro del archivo de configuración sysctl. 
+6. Configurar variable **vm.max_map_count** dentro del archivo de configuración **sysctl**. 
 ``` 
 sudo vi /etc/sysctl.conf 
 ``` 
-En el editor **vi** presionar ESC + i (insertar) y agregar al final del archivo la siguiente linea sin comentar: 
-**vm.max_map_count=2621444**. 
-Para guardar presionar ESC y escribir ":wq" (*Write y quit*)
+En el editor **vi** presionar ESC + i (insert) y agregar al final del archivo la siguiente linea sin comentar: 
+**vm.max_map_count=2621444**.
+Para guardar presionar ESC y escribir ":wq" (*Write y quit*).
 7. Verificar el valor de la variable, ejecutar:
 ``` 
 sudo sysctl -p 
@@ -90,9 +90,9 @@ sudo sysctl -p
 ``` 
 ifconfig 
 ``` 
-9. En el archivo host (%WINDIR%\\System32\drivers\etc\host) y agregar la IP para la URL de Kibana
+9. En el archivo host (%windir%\System32\drivers\etc\host) y agregar la IP asignada para la URL de Kibana
 ``` 
-192.168.99.103	kibana.midominiomtie.net
+XX.XX.XX.XX	kibana.midominiomtie.net
 ``` 
 ### Descarga del proyecto desde el repositorio de git
 1. Clonar el repositorio de este proyecto en la máquina virtual. 
@@ -126,4 +126,11 @@ sudo rm -r *nombre carpeta*
 ``` 
 http://kibana.midominiomtie.net/
 ``` 
+## Recursos
+> Los detalles de este proyecto se describen en el siguiente articulo: [How to synchronize Elasticsearch with MySQL](https://towardsdatascience.com/how-to-synchronize-elasticsearch-with-mysql-ed32fc57b339)
+- Inspiration by [How to keep Elasticsearch synchronized with a relational database using Logstash and JDBC](https://www.elastic.co/blog/how-to-keep-elasticsearch-synchronized-with-a-relational-database-using-logstash). However the article does not deal with indexing from scratch and deleted records.
+- Data used for this project is available in the Kaggle dataset [Goodreads-books](https://www.kaggle.com/jealousleopard/goodreadsbooks)
+- [Logstash JDBC input plugin](https://www.elastic.co/guide/en/logstash/current/plugins-inputs-jdbc.html)
+- [Logstash Mutate filter plugin](https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html)
+- [Logstash Elasticsearch output plugin](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html)
 ## Fin
