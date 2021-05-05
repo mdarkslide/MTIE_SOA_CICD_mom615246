@@ -16,8 +16,7 @@ services:
         - vhostd:/etc/nginx/vhost.d
         - html:/usr/share/nginx/html
         - /var/run/docker.sock:/tmp/docker.sock:ro
-        #- ./config/reverse-proxy/custom-settings.conf:/etc/nginx/conf.d/custom-settings.conf:ro
-
+        #- ~/config/reverse-proxy/custom-settings.conf:/etc/nginx/conf.d/custom-settings.conf:ro
 
   ###################
   # MySQL Container #
@@ -29,27 +28,27 @@ services:
     ports:
       - 3306:3306
     environment:
-      #MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      #MYSQL_ROOT_PASSWORD: toor
       MYSQL_DATABASE: classicmodels
       MYSQL_USER: molmos
-      MYSQL_PASSWORD: P@ssw0rd1
+      MYSQL_PASSWORD: P4ssw0rd1
     volumes:
       # Dump files for initiating tables
-      - ./data/:/docker-entrypoint-initdb.d/
+      - ~/data/:/docker-entrypoint-initdb.d/
     logging:
         driver: "json-file"
         options:
             max-size: "10k"
             max-file: "10"
-    cap_add:
-      - SYS_NICE  # CAP_SYS_NICE
+    cap_add: 
+      - SYS_NICE  #CAP_SYS_NICE
 
   ###########################
   # ElasticSearch Container # 
   ###########################
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
     container_name: MRSI-ElasticSearch
     restart: always
     expose:
@@ -71,12 +70,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./volumes/elk-stack/elasticsearch:/usr/share/elasticsearch/data
-    logging:
-        driver: "json-file"
-        options:
-            max-size: "10k"
-            max-file: "10"  
+      - ~/volumes/elk-stack/elasticsearch:/usr/share/elasticsearch/data
 
   ####################
   # Logstach Container #
@@ -91,10 +85,10 @@ services:
       - mysql
       - elasticsearch
     volumes:
-      - ./volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
-      - ./volumes/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-      - ./volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
+      - ~/volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
+      - ~/volumes/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ~/volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ~/volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
     logging:
       driver: "json-file"
       options:
@@ -105,7 +99,7 @@ services:
   # Kibana Container #
   ####################
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.9.3
+    image: docker.elastic.co/kibana/kibana:7.9.2
     container_name: MRSI-Kibana
     restart: always
     environment:

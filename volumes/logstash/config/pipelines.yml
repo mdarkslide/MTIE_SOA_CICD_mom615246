@@ -2,8 +2,8 @@
 # For more information on multiple pipelines, see the documentation:
 #   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
 
-- pipeline.id: from-scratch-pipeline
-  path.config: "/usr/share/logstash/pipeline/from-scratch.conf"
+- pipeline.id: gfasales-pipeline
+  path.config: "/usr/share/logstash/pipeline/gfasales.conf"
 
-- pipeline.id: incremental-pipeline
-  path.config: "/usr/share/logstash/pipeline/incremental.conf"
+- pipeline.id: gfasales_incremental-pipeline
+  path.config: "/usr/share/logstash/pipeline/gfasales_incremental.conf"
