@@ -36,7 +36,7 @@ services:
       MYSQL_PASSWORD: P@ssw0rd1
     volumes:
       # Dump files for initiating tables
-      - ~/data/:/docker-entrypoint-initdb.d/
+      - ./data/:/docker-entrypoint-initdb.d/
     logging:
         driver: "json-file"
         options:
@@ -71,7 +71,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ~/volumes/elk-stack/elasticsearch:/usr/share/elasticsearch/data
+      - ./volumes/elk-stack/elasticsearch:/usr/share/elasticsearch/data
     logging:
         driver: "json-file"
         options:
@@ -91,10 +91,10 @@ services:
       - mysql
       - elasticsearch
     volumes:
-      - ~/volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
-      - ~/volumes/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ~/volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-      - ~/volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
+      - ./volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
+      - ./volumes/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
     logging:
       driver: "json-file"
       options:
