@@ -79,18 +79,18 @@ alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine"
 ``` 
 sudo vi /etc/sysctl.conf 
 ``` 
-En el editor **vi** presionar ESC + i (insert) y agregar al final del archivo la siguiente linea sin comentar: 
+7. En el editor **vi** presionar ESC + i (insert) y agregar al final del archivo la siguiente linea sin comentar: 
 **vm.max_map_count=2621444**.
 Para guardar presionar ESC y escribir ":wq" (*Write y quit*).
-7. Verificar el valor de la variable, ejecutar:
+8. Verificar el valor de la variable, ejecutar:
 ``` 
 sudo sysctl -p 
 ``` 
-8. Verificar la IP asignada a la máquina virtual
+9. Verificar la IP asignada a la máquina virtual
 ``` 
 ifconfig 
 ``` 
-9. En el archivo host (%windir%\System32\drivers\etc\host) y agregar la IP asignada para la URL de Kibana
+10. En el archivo host (%windir%\System32\drivers\etc\host) y agregar la IP asignada para la URL de Kibana
 ``` 
 XX.XX.XX.XX	kibana.midominiomtie.net
 ``` 
