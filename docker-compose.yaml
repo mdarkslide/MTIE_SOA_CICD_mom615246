@@ -108,7 +108,9 @@ services:
     container_name: MRSI-Kibana
     restart: always
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      #- ELASTICSEARCH_URL=http://elasticsearch:9200
+      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+      - "SERVER_NAME=127.0.0.1"
       - VIRTUAL_HOST=kibana.midominiomtie.net
     #ports:
     #  - 5601:5601
