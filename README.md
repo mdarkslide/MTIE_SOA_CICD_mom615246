@@ -2,7 +2,7 @@
 ## Maestría en Tecnologías de Información Empresarial
 ## 143 - 02MTI513 - Modelos de Arquitecturas Orientadas a los Servicios
 
-![Logo de la Facultad](./images/DeLa Salle_FTI_Color.png)
+![Logo de la Facultad](./images/DeLaSalle_FTI_Color.png)
 
 ### Presenta: 615246 - Miguel Olmos Mares 
 ### Proyecto Final
