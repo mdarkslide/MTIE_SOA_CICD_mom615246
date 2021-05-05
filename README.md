@@ -107,6 +107,10 @@ sudo mkdir -p volumes/elk-stack/elasticsearch && cd volumes/elk-stack/ && sudo c
 ``` 
 sudo docker-compose up --build -d 
 ``` 
+4. En caso de requerir eliminar la carpeta del proyecto para descargar una nueva versión desde el repositorio ejecutar:
+``` 
+sudo rm -r *nombre carpeta*
+``` 
 ### Lista de comandos para contenedores
 Comando | Descripción
 ------------ | -------------
@@ -117,12 +121,8 @@ docker rm -fv *nombre_contenedor* | Eliminar un contenedor
 docker rm -f $(docker ps -qa) | Eliminar todos los contenedores
 docker images | Ver la lista de las imagenes en el repositorio de docker
 docker rmi -f $(docker images -a -q) | Eliminar todas las imagenes del repositorio
-
-1. Eliminar la carpeta del proyecto para descargar una nueva versión desde el repositorio.
-``` 
-sudo rm -r *nombre carpeta*
-``` 
-2. El tablero generado en Kibana se puede consultar en:
+### Consulta del dashboard
+1. El tablero generado en Kibana se puede consultar en un navegador:
 ``` 
 http://kibana.midominiomtie.net/
 ``` 
@@ -133,4 +133,5 @@ http://kibana.midominiomtie.net/
 - [Logstash JDBC input plugin](https://www.elastic.co/guide/en/logstash/current/plugins-inputs-jdbc.html)
 - [Logstash Mutate filter plugin](https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html)
 - [Logstash Elasticsearch output plugin](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html)
+### ¡Gracias!
 ## Fin
