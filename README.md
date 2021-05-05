@@ -34,16 +34,18 @@ docker-machine --version
 ``` 
 ### Crear una maquina virtual con RancherOS utilizando docker-machine
 1. Crear una maquina con docker-machine utilizando el driver de virtualbox con 2 CPUs, 20GB de almacenamiento y 5GB de RAM denominada **elk-stack**, el resto de los parametros del driver se pueden consultar en [docker docs](http://docs.docker.oeynet.com/machine/drivers/virtualbox/#options). 
-``` 
-docker-machine create --driver virtualbox --virtualbox-cpu-count 2 --virtualbox-disk-size 20000 --virtualbox-memory 5120 --virtualbox-boot2docker-url https://releases.rancher.com/os/latest/rancheros.iso elk-stack
-``` 
-_--virtualbox-cpu-count: Número de CPU que se utilizarán para crear la máquina virtual. Deafult 1 CPU._ 
  
-_--virtualbox-disk-size: Tamaño del disco para el host en MB._ 
+_--virtualbox-cpu-count: Número de CPU que se utilizarán para crear la máquina virtual. Default 1 CPU._ 
  
-_--virtualbox-memory: Tamaño de la memoria RAM del host en MB._ 
+_--virtualbox-disk-size: Tamaño del disco asignado a la máquina virtual en MB._ 
+ 
+_--virtualbox-memory: Tamaño de la memoria RAM asignada a la máquina virtual en MB._ 
  
 _--virtualbox-boot2docker-url: URL de la imagen de boot2docker (Última versión disponible)._ 
+ 
+ ``` 
+docker-machine create --driver virtualbox --virtualbox-cpu-count 2 --virtualbox-disk-size 20000 --virtualbox-memory 5120 --virtualbox-boot2docker-url https://releases.rancher.com/os/latest/rancheros.iso elk-stack
+``` 
  
 ### Lista de comandos para docker-machine
 Comando | Descripción
