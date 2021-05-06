@@ -879,12 +879,12 @@ insert  into `offices`(`officeCode`,`longitude`,`latitude`,`time_zone`) values
 ('WEBMV', '', '', 'America/Mexico_City'),
 ('VIMAS', '', '', 'America/Mexico_City');
 
-/*Table structure for table `gfaSales` */
+/*Table structure for table `gfasales` */
 
-DROP TABLE IF EXISTS `gfaSales`;
+DROP TABLE IF EXISTS `gfasales`;
 
-CREATE TABLE `gfaSales` (
-	`sale_ID` int(11) NOT NULL,
+CREATE TABLE `gfasales` (
+	`sale_id` int(11) NOT NULL,
 	`officeCode` varchar(10) NOT NULL,
 	`salesKey` varchar(10) NOT NULL,
 	`destination` varchar(10) NOT NULL,
@@ -898,11 +898,11 @@ CREATE TABLE `gfaSales` (
 	`price`	decimal(10,2) DEFAULT 0,
 	`saleTime`	time NOT NULL,
 	`discount` decimal(10,2) DEFAULT 0, 
-  PRIMARY KEY (sale_ID),
+  PRIMARY KEY (sale_id),
   CONSTRAINT `offices_ibfk_1` FOREIGN KEY (`officeCode`) REFERENCES `offices` (`officeCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-insert  into `gfaSales`(`sale_ID`,`officeCode`,`salesKey`,`destination`,`saleDate`,`serviceClass`,
+insert  into `gfasales`(`sale_id`,`officeCode`,`salesKey`,`destination`,`saleDate`,`serviceClass`,
 				`serviceNumber`,`serviceTime`,`origin`,`serviceDate`, `category`,`price`,`saleTime`,`discount`) values 
 
 ('1', 'RSVPP', 'RSINT', 'QRO', '2020-02-01', 'P', '2', '15:30', 'AEMEX', '2020-02-03', 'C', '425', '00:14', '0') ,
@@ -25560,9 +25560,9 @@ insert  into `gfaSales`(`sale_ID`,`officeCode`,`salesKey`,`destination`,`saleDat
 
 /*Table structure for table `gfasalesjournal` */
 
-CREATE TABLE `gfaSales_journal` (
+CREATE TABLE `gfasales_journal` (
 	`journal_id` int NOT NULL AUTO_INCREMENT,
-	`sale_ID` int(11) DEFAULT NULL,
+	`sale_id` int(11) DEFAULT NULL,
 	`action_type` enum('create','update','delete') DEFAULT NULL,
 	`action_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`journal_id`)
@@ -25570,23 +25570,23 @@ CREATE TABLE `gfaSales_journal` (
 
 /*Trigger para despues de insertar*/
 
-CREATE TRIGGER `gfaSales_after_insert` AFTER INSERT ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
+CREATE TRIGGER `gfasales_after_insert` AFTER INSERT ON `gfasales` FOR EACH ROW INSERT INTO classicmodels.gfasales_journal
 	SET
-		sale_ID = NEW.sale_ID,
+		sale_id = NEW.sale_id,
 		action_type = 'create',
 		action_time = NOW();
 
 /*Trigger para despues de eliminar*/
-CREATE TRIGGER `gfaSales_after_delete` AFTER DELETE ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
+CREATE TRIGGER `gfasales_after_delete` AFTER DELETE ON `gfasales` FOR EACH ROW INSERT INTO classicmodels.gfasales_journal
 	SET
-		sale_ID = OLD.sale_ID,
+		sale_id = OLD.sale_id,
 		action_type = 'delete',
 		action_time = NOW();
 
 /*Trigger para despues de actualizar*/
-CREATE TRIGGER `gfaSales_after_update` AFTER UPDATE ON `gfaSales` FOR EACH ROW INSERT INTO classicmodels.gfaSales_journal
+CREATE TRIGGER `gfasales_after_update` AFTER UPDATE ON `gfasales` FOR EACH ROW INSERT INTO classicmodels.gfasales_journal
 	SET
-		sale_ID = OLD.sale_ID,
+		sale_id = OLD.sale_id,
 		action_type = 'update',
 		action_time = NOW();
 
