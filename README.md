@@ -58,6 +58,7 @@ docker-machine create --driver virtualbox --virtualbox-cpu-count 2 --virtualbox-
 Comando | Descripción
 ------------ | -------------
 docker-machine ls | Ver la lista de VMs creadas
+docker-machine env *nombre_VM* | Ver la configuración de una VM
 docker-machine start *nombre_VM* | Iniciar una VM
 docker-machine stop *nombre_VM* | Detener una VM
 docker-machine rm -y *nombre_VM* | Eliminar una VM sin confirmación
@@ -76,7 +77,7 @@ sudo ros console switch ubuntu
 ``` 
 sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 ``` 
-4. Cambiar los permisos a la carpeta generada en la instalación de Git:
+4. Cambiar los permisos a la carpeta generada en la instalación de docker-compose:
 ```
 sudo chmod +x /usr/local/bin/docker-compose
 ```
