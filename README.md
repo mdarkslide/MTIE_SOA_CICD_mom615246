@@ -91,11 +91,12 @@ sudo ros console switch ubuntu
    2. Presionar [ESC] + [i] para insertar.
    3. Pegar el contenido del archivo *update.sh* que se encuentra en el repositorio de Git.
    4. Guardar y salir. Presionar [ESC] y después escribir `:wq` (*write* y *quit*).
-7. Ejecutar el script de despliegue inicial:
+
+### Ejecución del script de despliegue
+- Ejecutar el script de despliegue inicial:
 ```
 sh deploy.sh
 ```
-### Acciones del script de despliegue 
 El script **deploy.sh** realizará las siguientes acciones:
 >
 - Agregar en el archivo de configuración **sysctl** la variable y el valor `vm.max_map_count=2621444`.
