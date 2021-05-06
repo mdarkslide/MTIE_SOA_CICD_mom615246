@@ -162,6 +162,7 @@ Acceder a la interfaz de Kibana a través de un navegador:
 - [Logstash JDBC input plugin](https://www.elastic.co/guide/en/logstash/current/plugins-inputs-jdbc.html)
 - [Logstash Mutate filter plugin](https://www.elastic.co/guide/en/logstash/current/plugins-filters-mutate.html)
 - [Logstash Elasticsearch output plugin](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html)
+- [MySQL classicmodels sample databae](https://www.mysqltutorial.org/mysql-sample-database.aspx)
 ## Agradecimientos
 Gracias a todo el equipo de la Maestría en Tecnologías de la Información Empresarial, ¡Sin ellos esto no habría sido posible!
 ## Fin del documento.
