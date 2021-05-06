@@ -65,65 +65,79 @@ docker-machine rm -y *nombre_VM* | Eliminar una VM sin confirmación
 docker-machine ssh *nombre_VM* | Conectarse a una VM a traves de SSH
 
 ### Configuración de la máquina virtual para la creación de los contenedores 
-1. Conectarse a la máquina virtual creada en el paso anterior:
+1. Verificar la IP asignada a la máquina virtual creada:
 ``` 
-docker-machine ssh *nombre_VM* 
+docker-machine env elk-stack
 ``` 
-2. Cambiar a la consola de Ubuntu en RancherOS:
-``` 
-sudo ros console switch ubuntu 
-``` 
-3. Instalar docker-compose en RancherOS:
-``` 
-sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-``` 
-4. Cambiar los permisos a la carpeta generada en la instalación de docker-compose:
-```
-sudo chmod +x /usr/local/bin/docker-compose
-```
-5. Crear un alias para ejecutar Git sin instalarlo:
-``` 
-alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine" 
-``` 
-6. Configurar variable **vm.max_map_count** dentro del archivo de configuración **sysctl**. 
-``` 
-sudo vi /etc/sysctl.conf 
-``` 
-7. En el editor **vi** presionar ESC + i (insert) y agregar al final del archivo la siguiente linea sin comentar: 
-**vm.max_map_count=2621444**.
-> Para guardar los cambios presionar [ESC] y después escribir `:wq` (*write y *quit).
-
-8. Verificar el valor de la variable sysctl, ejecutar:
-``` 
-sudo sysctl -p 
-``` 
-9. Verificar la IP asignada a la máquina virtual
-``` 
-ifconfig 
-``` 
-10. En el archivo host (%windir%\System32\drivers\etc\host) y agregar la IP asignada para la URL de Kibana
+2. En el archivo host (%windir%\System32\drivers\etc\host) de la máquina local agregar la IP asignada para la URL de Kibana:
 ``` 
 XXX.XXX.XXX.XXX	kibana.midominiomtie.net
 ``` 
-### Descarga del proyecto desde el repositorio de Git
-Se ejecutara un script que realizará las siguientes acciones:
-1. Clonar el repositorio de este proyecto en la máquina virtual
-2. Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios.
-3. Moverá los archivos a la raiz desde la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** en el que se encuentra el archivo YAML **\*docker-compose\*** que contiene todas las instrucciones para la creación de los contenedores:
+3. Conectarse a la máquina virtual creada en el paso anterior:
 ``` 
-git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git && \
-cd MTIE_SOA_CICD_mom615246 && \
-sudo cp -R volumes/ ~/ && \
-sudo mkdir -p ~/volumes/elk-stack/elasticsearch && \
-cd ~/volumes/elk-stack/ && \
-sudo chmod 777 elasticsearch/ && \
-cd ~/MTIE_SOA_CICD_mom615246 && \
-sudo cp -R data/ ~/ && \
+docker-machine ssh elk-stack 
+``` 
+4. Cambiar a la consola de Ubuntu en RancherOS:
+``` 
+sudo ros console switch ubuntu 
+``` 
+5. Crear y editar el archivo **deploy.sh** en el directorio principal:
+   1. Ejecutar `sudo vim deploy.sh`
+   2. Presionar [ESC] + [i] para insertar.
+   3. Pegar el contenido del archivo *deploy.sh* que se encuentra en el repositorio de Git.
+   4. Guardar y salir. Presionar [ESC] y después escribir `:wq` (*write* y *quit*).
+6. Crear y editar el archivo **update.sh** en el directorio principal:
+   1. Ejecutar `sudo vim update.sh`
+   2. Presionar [ESC] + [i] para insertar.
+   3. Pegar el contenido del archivo *update.sh* que se encuentra en el repositorio de Git.
+   4. Guardar y salir. Presionar [ESC] y después escribir `:wq` (*write* y *quit*).
+7. Ejecutar el script de despliegue inicial:
+```
+sh deploy.sh
+```
+### Acciones del script de despliegue 
+El script **deploy.sh** realizará las siguientes acciones:
+>
+- Agregar en el archivo de configuración **sysctl** la variable y el valor `vm.max_map_count=2621444`.
+- Instalar docker-compose en RancherOS y cambiar los permisos a la carpeta generada en la instalación:
+``` 
+sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+``` 
+>
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
+- Crear un alias para ejecutar Git sin instalarlo:
+``` 
+alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine" 
+```
+- Eliminar el repositorio local en caso de que exista.
+- Clonar el repositorio de este proyecto en la máquina virtual
+``` 
+git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git
+``` 
+- Limpiar los directorios *data* y *volumes*.
+- Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios. Actualizar el contenido de *data* y *volumes*. Copiar los archivos a la raiz desde la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** en la cual se encuentra el archivo YAML **docker-compose.yaml** que contiene todas las instrucciones para la creación de los contenedores:
+- Ejecutar el docker-compose para el despliegue de los contenedores:
+``` 
 sudo docker-compose up --build -d
 ``` 
-> En caso de requerir eliminar la carpeta del proyecto para descargar una nueva versión desde el repositorio ejecutar:
+>
+### Acciones del script de actualización 
+El script **update.sh** realizará las siguientes acciones:
+- Crear un alias para ejecutar Git sin instalarlo:
 ``` 
-sudo rm -r *nombre carpeta*
+alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine" 
+```
+- Eliminar el repositorio local en caso de que exista.
+- Clonar el repositorio de este proyecto en la máquina virtual
+``` 
+git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git
+``` 
+- Actualizar los directorios *data* y *volumes*.
+- Ejecutar el docker-compose para el despliegue de los contenedores:
+``` 
+sudo docker-compose up --build -d
 ``` 
 ### Lista de comandos para contenedores
 Comando | Descripción
@@ -135,8 +149,11 @@ docker rm -fv *nombre_contenedor* | Eliminar un contenedor
 docker rm -f $(docker ps -qa) | Eliminar todos los contenedores
 docker images | Ver la lista de las imagenes en el repositorio de docker
 docker rmi -f $(docker images -a -q) | Eliminar todas las imagenes del repositorio
+
 ### Consulta del dashboard
-El tablero generado en Kibana se puede consultar en un navegador:
+
+Acceder a la interfaz de Kibana a través de un navegador:
+>
 [kibana.midominiomtie.net](http://kibana.midominiomtie.net/)
 ## Recursos
 > Los detalles de este proyecto se describen en el siguiente articulo: [How to synchronize Elasticsearch with MySQL](https://towardsdatascience.com/how-to-synchronize-elasticsearch-with-mysql-ed32fc57b339)
@@ -147,4 +164,4 @@ El tablero generado en Kibana se puede consultar en un navegador:
 - [Logstash Elasticsearch output plugin](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html)
 ## Agradecimientos
 Gracias a todo el equipo de la Maestría en Tecnologías de la Información Empresarial, ¡Sin ellos esto no habría sido posible!
-## Fin del documento
+## Fin del documento.
