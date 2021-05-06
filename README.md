@@ -14,12 +14,14 @@
 
 1. Verificar que ese deshabilitado el soporte para **Hyper-V** desde *Activar o desactivar las características de Windows* en Panel de Control. 
    - Para algunos casos verificar que esten deshabilitadas las opciones *Virtual Machine Platform* y *Windows Hypervisor Platform*.
-2. Descargar e instalar [VirtualBox](https://www.virtualbox.org/wiki/Downloads). 
+2. Descargar e instalar [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+>
 3. Ejecutar **PowerShell** con privilegios de administrador: 
 ``` 
 bcdedit /set hypervisorlaunchtype off 
 ```
 4. Instalar [Docker Desktop](https://www.docker.com/products/docker-desktop) para todos los usuarios y reiniciar.
+>
 5. Ejecutar **PowerShell** con privilegios de administrador e instalar **Chocolatey**: 
 ``` 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
@@ -119,7 +121,7 @@ git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git
 ``` 
 - Limpiar los directorios *data* y *volumes*.
 - Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios. Actualizar el contenido de *data* y *volumes*. Copiar los archivos a la raiz desde la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** en la cual se encuentra el archivo YAML **docker-compose.yaml** que contiene todas las instrucciones para la creación de los contenedores:
-- Ejecutar el docker-compose para el despliegue de los contenedores:
+- Finalmente ejecuta el docker-compose y despliega los contenedores:
 ``` 
 sudo docker-compose up --build -d
 ``` 
