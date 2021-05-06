@@ -3,7 +3,7 @@
 #   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
 
 - pipeline.id: gfasales-pipeline
-  path.config: "/usr/share/logstash/pipeline/gfasales.conf"
+  path.config: "/usr/share/logstash/pipeline/gfasales-scratch.conf"
 
 - pipeline.id: gfasales_incremental-pipeline
   path.config: "/usr/share/logstash/pipeline/gfasales_incremental.conf"
