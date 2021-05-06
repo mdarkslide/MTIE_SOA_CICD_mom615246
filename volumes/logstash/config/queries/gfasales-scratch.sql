@@ -1,1 +1,1 @@
-SELECT * FROM classicmodels.gfaSales
+SELECT * FROM classicmodels.gfasales
