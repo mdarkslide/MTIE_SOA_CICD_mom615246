@@ -4,10 +4,10 @@
 ## 143 - 02MTI513 - Modelos de Arquitecturas Orientadas a los Servicios
 ## Profesor: Ing. José Luis Rosas Peimbert
 ### Presenta: 615246 - Miguel Olmos Mares 
-![Logo de la Facultad](./images/DeLaSalle_FTI_Color.png)
+![Logo de la Facultad de Tec](http://bajio.delasalle.edu.mx/comunidad/images/imagotipos/FTI_Color.png)
 
 ## Introducción
-> Proyecto final para la creación de una máquina virtual con RancherOS en la cual se crearan los contenedores necesarios para crear un dashboard con Logstash, Elasticsearch y Kibana a partir de la información de una base de datos en MySQL (classicmodels + gfasales).
+> Proyecto final para la creación de una máquina virtual con RancherOS en la cual se crearan los contenedores necesarios para crear una solución de ELK Stack (Elasticsearch, Logstash y Kibana) a partir de la información de una base de datos en MySQL (classicmodels + gfasales).
 
 ## Creación de una maquina virtual con docker-machine
 ### Instalación de Docker Machine en Windows
@@ -102,7 +102,7 @@ sh deploy.sh
 El script **deploy.sh** realizará las siguientes acciones:
 >
 - Agregar en el archivo de configuración **sysctl** la variable y el valor `vm.max_map_count=2621444`.
-- Instalar docker-compose en RancherOS y cambiar los permisos a la carpeta generada en la instalación:
+- Instalar docker-compose en RancherOS y cambiar los permisos a la carpeta generada durante la instalación:
 ``` 
 sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 ``` 
@@ -115,18 +115,31 @@ sudo chmod +x /usr/local/bin/docker-compose
 alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine" 
 ```
 - Eliminar el repositorio local en caso de que exista.
-- Clonar el repositorio de este proyecto en la máquina virtual
+- Clonar el repositorio de este proyecto en la máquina virtual:
 ``` 
 git clone https://github.com/mdarkslide/MTIE_SOA_CICD_mom615246.git
 ``` 
 - Limpiar los directorios *data* y *volumes*.
-- Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios. Actualizar el contenido de *data* y *volumes*. Copiar los archivos a la raiz desde la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** en la cual se encuentra el archivo YAML **docker-compose.yaml** que contiene todas las instrucciones para la creación de los contenedores:
+- Crear una carpeta para elasticsearch dentro de la carpeta del proyecto y darle los permisos necesarios. Actualizar el contenido de *data* y *volumes*. Copiar los archivos a la raiz desde la carpeta donde se encuentra el proyecto **MTIE_SOA_CICD_mom615246** en la cual se encuentra el archivo YAML **docker-compose.yaml** que contiene todas las instrucciones para la creación de los contenedores para este proyecto:
+> 
+Contenedor | Descripción
+------------ | -------------
+MRSI-Proxy | API Gateway Reverse Proxy Container
+MRSI-MySQL | MySQL Container
+MRSI-ElasticSearch | ElasticSearch Container
+MRSI-Logstash | Logstach Container
+MRSI-Kibana | Kibana Container
+
 - Finalmente ejecuta el docker-compose y despliega los contenedores:
 ``` 
 sudo docker-compose up --build -d
 ``` 
 >
-### Acciones del script de actualización 
+### Acciones del script de actualización
+- Ejecutar el script de despliegue inicial:
+```
+sh update.sh
+```
 El script **update.sh** realizará las siguientes acciones:
 - Crear un alias para ejecutar Git sin instalarlo:
 ``` 
@@ -167,5 +180,5 @@ Acceder a la interfaz de Kibana a través de un navegador:
 - [Logstash Elasticsearch output plugin](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html)
 - [MySQL classicmodels sample databae](https://www.mysqltutorial.org/mysql-sample-database.aspx)
 ## Agradecimientos
-Gracias a todo el equipo de la Maestría en Tecnologías de la Información Empresarial, ¡Sin ellos esto no habría sido posible!
+Gracias a todo el equipo de la Maestría en Tecnologías de la Información Empresarial, ¡Sin ustedes esto no habría sido posible!
 ## Fin del documento.
