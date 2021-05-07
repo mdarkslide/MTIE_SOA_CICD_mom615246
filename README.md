@@ -136,7 +136,7 @@ sudo docker-compose up --build -d
 ``` 
 >
 ### Acciones del script de actualización
-- Ejecutar el script de despliegue inicial:
+- Ejecutar el script de actualización del despliegue sin eliminar el contenido de *data* y *volumes*:
 ```
 sh update.sh
 ```
