@@ -6,6 +6,7 @@
 ### Presenta: 615246 - Miguel Olmos Mares 
 ![Logo de la Facultad de Tecnolías de la Información](http://bajio.delasalle.edu.mx/comunidad/images/imagotipos/FTI_Color.png)
 >
+[![Generic badge](https://img.shields.io/badge/Materia-Modelos%20de%20Arquitectura-lightgrey)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/version-1.0-blue)](https://shields.io/) 
 ![GitHub last commit](https://img.shields.io/github/last-commit/mdarkslide/MTIE_SOA_CICD_mom615246)
 
