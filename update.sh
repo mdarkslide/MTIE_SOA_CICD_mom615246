@@ -20,7 +20,7 @@ echo '                 /  \| /  \ /   |/  / _\ |                '
 echo '                 \__/| \__/ \__ |\_ \__  |                '
 echo '                                                          '
 echo '                                                          '
-echo '===         INICIA LA EJECUCION DEL DEPLOY.SH          ==='
+echo '===         INICIA LA EJECUCION DEL UPDATE.SH          ==='
 echo '=========================================================='
 
 echo '=========================================================='
