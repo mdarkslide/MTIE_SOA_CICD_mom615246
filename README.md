@@ -7,6 +7,7 @@
 ![Logo de la Facultad de Tecnolías de la Información](http://bajio.delasalle.edu.mx/comunidad/images/imagotipos/FTI_Color.png)
 >
 [![Generic badge](https://img.shields.io/badge/version-1.0-blue)](https://shields.io/) 
+![GitHub last commit](https://img.shields.io/github/last-commit/mdarkslide/MTIE_SOA_CICD_mom615246)
 
 ## Introducción
 > Proyecto final para la creación de una máquina virtual con RancherOS en la cual se crearán los contenedores necesarios para crear una solución de ELK Stack (Elasticsearch, Logstash y Kibana) a partir de la información de una base de datos en MySQL (classicmodels + gfasales).
@@ -83,7 +84,7 @@ XXX.XXX.XXX.XXX	kibana.midominiomtie.net
 ``` 
 docker-machine ssh elk-stack 
 ``` 
-4. Cambiar a la consola de Ubuntu en RancherOS:
+4. Verificar la lista de consolas disponibles en RancherOS, `sudo ros console list`, para cambiar a la consola de Ubuntu en RancherOS:
 ``` 
 sudo ros console switch ubuntu 
 ``` 
